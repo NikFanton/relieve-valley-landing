@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Heart, Sparkles, Wind, Zap, LayoutGrid, Lock, CircleAlert } from 'lucide-react';
 import { Button } from './components/Button';
+import { MascotShowcase } from './components/MascotShowcase';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,6 +52,7 @@ function App() {
 
             <div className="hidden md:flex items-center space-x-8">
               <a href="#panic-shield" className="font-bold hover:text-brand-orange transition-colors">Panic Shield</a>
+              <a href="#companion" className="font-bold hover:text-brand-orange transition-colors">Companion</a>
               <a href="#features" className="font-bold hover:text-brand-orange transition-colors">Features</a>
               <a href="#about" className="font-bold hover:text-brand-orange transition-colors">About</a>
               <Button size="sm">Get Early Access</Button>
@@ -71,6 +73,7 @@ function App() {
           <div className="md:hidden bg-white border-t-2 border-gray-100 absolute w-full shadow-xl">
             <div className="px-4 pt-2 pb-6 space-y-2">
               <a href="#panic-shield" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Panic Shield</a>
+              <a href="#companion" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Companion</a>
               <a href="#features" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Features</a>
               <a href="#about" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">About</a>
               <div className="pt-2">
@@ -147,7 +150,7 @@ function App() {
           ref={section2Ref}
           className="min-h-[100vh] bg-[#fdfaf1] flex flex-col items-center justify-center px-4 relative overflow-hidden"
         >
-           <div className={`max-w-4xl mx-auto text-center space-y-16 reveal-on-scroll ${section2InView ? 'active' : ''}`}>
+           <div className={`max-w-4xl mx-auto text-center space-y-10 md:space-y-14 reveal-on-scroll ${section2InView ? 'active' : ''}`}>
               <h3 className="text-4xl md:text-6xl font-cartoon font-bold text-[#57ca85] leading-tight">
                 But from now on,<br/>
                 <span className="text-brand-dark">you'll manage to deal with it.</span>
@@ -155,23 +158,23 @@ function App() {
               
               <div className="flex justify-center items-center relative">
                 {/* Pulse Glow Layer */}
-                <div className={`absolute w-64 h-64 bg-red-400/30 rounded-full blur-[60px] animate-glow-pulse transition-opacity duration-1000 ${section2InView ? 'opacity-100' : 'opacity-0'}`}></div>
+                <div className={`absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] bg-red-400/30 rounded-full blur-[30px] md:blur-[40px] animate-glow-pulse transition-opacity duration-1000 ${section2InView ? 'opacity-100' : 'opacity-0'}`}></div>
 
-                {/* Visual Button */}
+                {/* Visual Button - Using rounded-full for perfect oval shape */}
                 <button 
                   onClick={() => scrollToSection('panic-shield')}
-                  className="relative z-10 w-40 h-40 md:w-56 md:h-56 bg-[#ff7b7b] rounded-[60px] md:rounded-[80px] border-[6px] md:border-[8px] border-black shadow-[12px_12px_0_0_#000] active:shadow-none active:translate-x-[6px] active:translate-y-[6px] hover:scale-105 transition-all flex items-center justify-center group overflow-hidden"
+                  className="relative z-10 w-36 h-20 md:w-52 md:h-28 bg-[#ff7b7b] rounded-full border-[3px] md:border-[4px] border-black shadow-[6px_8px_0_0_#000] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] hover:scale-105 transition-all flex flex-col items-center justify-center group overflow-hidden"
                 >
-                   {/* Glance / Reflection Overlay */}
-                   <div className="absolute top-[8%] left-[10%] w-[80%] h-[35%] bg-gradient-to-b from-white/30 to-transparent rounded-[100%] pointer-events-none z-10"></div>
+                   {/* Reflection Highlight - Matches the user reference implementation */}
+                   <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-[65%] h-[25%] bg-white/20 rounded-full blur-[2px] pointer-events-none z-10"></div>
                    
-                   {/* Relief Button Text */}
-                   <span className="text-white font-cartoon font-bold text-2xl md:text-3xl text-center leading-none z-20 select-none drop-shadow-md">
+                   {/* Relief Button Text - Bigger and semi-bold, minimal padding */}
+                   <span className="text-white font-cartoon font-semibold text-2xl md:text-3xl text-center leading-[0.9] z-20 select-none drop-shadow-md px-1">
                       Relief<br/>Button
                    </span>
                 </button>
               </div>
-              <p className={`text-emerald-600 font-cartoon text-xl font-bold animate-pulse transition-opacity duration-1000 ${section2InView ? 'opacity-100' : 'opacity-0'}`}>Press to begin the journey</p>
+              <p className={`text-emerald-600 font-cartoon text-lg md:text-xl font-bold animate-pulse transition-opacity duration-1000 ${section2InView ? 'opacity-100' : 'opacity-0'}`}>Press to begin the journey</p>
            </div>
         </section>
 
@@ -229,7 +232,7 @@ function App() {
                             
                             <div 
                                 onClick={handlePanicClick}
-                                className={`w-full rounded-2xl p-4 border-2 border-brand-dark shadow-cartoon-hover mb-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${panicActivated ? 'bg-brand-green' : 'bg-white hover:bg-gray-50'}`}
+                                className={`w-full rounded-full p-4 border-2 border-brand-dark shadow-cartoon-hover mb-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${panicActivated ? 'bg-brand-green' : 'bg-white hover:bg-gray-50'}`}
                             >
                                 {panicActivated ? (
                                     <div className="flex flex-col items-center justify-center py-2 animate-in fade-in zoom-in duration-300">
@@ -238,7 +241,7 @@ function App() {
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-4">
-                                        <div className="bg-brand-orange p-3 rounded-xl border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform">
+                                        <div className="bg-brand-orange p-3 rounded-full border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform">
                                             <CircleAlert size={24} />
                                         </div>
                                         <div className="flex-1 text-brand-dark">
@@ -250,8 +253,8 @@ function App() {
                             </div>
                             
                             <div className="w-full space-y-3 opacity-50">
-                                <div className="h-16 bg-gray-100 rounded-xl border border-gray-200"></div>
-                                <div className="h-16 bg-gray-100 rounded-xl border border-gray-200"></div>
+                                <div className="h-16 bg-gray-100 rounded-2xl border border-gray-200"></div>
+                                <div className="h-16 bg-gray-100 rounded-2xl border border-gray-200"></div>
                             </div>
                         </div>
 
@@ -264,7 +267,12 @@ function App() {
           </div>
         </section>
 
-        {/* Features Grid - MOVED TO THE END */}
+        {/* Companion Section */}
+        <section id="companion" className="py-32 bg-brand-yellow/10">
+          <MascotShowcase />
+        </section>
+
+        {/* Features Grid */}
         <section id="features" className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20">
@@ -326,7 +334,7 @@ function App() {
                     </form>
                 </div>
                 <div className="mt-16 text-gray-500 text-sm font-body">
-                    © 2024 Relieve Valley. All rights reserved. <br/>
+                    © 2025-2026 Relieve Valley. All rights reserved. <br/>
                     Designed for serenity and play.
                 </div>
             </div>
