@@ -350,12 +350,12 @@ function App() {
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center mb-20 max-w-3xl mx-auto">
-               <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-1 rounded-full border border-brand-green/30 text-xs font-bold uppercase tracking-widest mb-4">
+               <div className="inline-flex items-center gap-2 bg-brand-violet/10 text-brand-violet px-4 py-1 rounded-full border border-brand-violet/30 text-xs font-bold uppercase tracking-widest mb-4">
                   Evidence Based Design
                </div>
                <h2 className="text-5xl font-cartoon font-bold mb-6 text-brand-dark">Science Behind Relieve Valley</h2>
                <p className="text-xl text-gray-600 font-body">
-                 We combined friendly design with <span className="text-brand-green font-bold">scientifically proven</span> protocols to create a digital refuge that actually works.
+                 We combined friendly design with <span className="text-brand-violet font-bold">scientifically proven</span> protocols to create a digital refuge that actually works.
                </p>
             </div>
             
