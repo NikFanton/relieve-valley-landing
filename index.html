@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relieve Valley - Find Your Peace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              cartoon: ['Fredoka', 'sans-serif'],
+              body: ['Nunito', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                yellow: '#FFEaa7',
+                orange: '#FF7675',
+                green: '#55efc4',
+                blue: '#74b9ff',
+                dark: '#2d3436',
+              }
+            },
+            boxShadow: {
+              'cartoon': '4px 4px 0px 0px rgba(45, 52, 54, 1)',
+              'cartoon-hover': '2px 2px 0px 0px rgba(45, 52, 54, 1)',
+              '3d-red': '0 8px 0 0 #b91c1c',
+              '3d-red-active': '0 2px 0 0 #b91c1c',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Nunito', sans-serif;
+        scroll-behavior: smooth;
+      }
+      h1, h2, h3, h4, h5, h6, button {
+        font-family: 'Fredoka', sans-serif;
+      }
+
+      @keyframes jitter {
+        0% { transform: translate(0,0) rotate(0); }
+        25% { transform: translate(1px, 1px) rotate(0.5deg); }
+        50% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+        75% { transform: translate(1px, -1px) rotate(0.2deg); }
+        100% { transform: translate(0,0) rotate(0); }
+      }
+
+      @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.5); }
+        70% { transform: scale(1.1); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      @keyframes glow {
+        0%, 100% { transform: scale(1); opacity: 0.2; }
+        50% { transform: scale(1.2); opacity: 0.5; }
+      }
+
+      @keyframes pulse-ripple {
+        0% { transform: scale(0.9); opacity: 0.6; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+
+      .animate-jitter {
+        animation: jitter 0.3s infinite ease-in-out;
+      }
+
+      .animate-pop-in {
+        animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        opacity: 0;
+      }
+
+      .animate-glow-pulse {
+        animation: glow 3s infinite ease-in-out;
+      }
+
+      .animate-pulse-ripple {
+        animation: pulse-ripple 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+      }
+
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .reveal-on-scroll.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-2y-6WkW7.js"></script>
+</head>
+  <body class="bg-yellow-50 text-brand-dark">
+    <div id="root"></div>
+  </body>
+</html>
