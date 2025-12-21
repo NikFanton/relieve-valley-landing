@@ -172,7 +172,7 @@ function App() {
         <section 
           id="overwhelming-fear" 
           ref={section1Ref}
-          className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center relative overflow-hidden px-4"
+          className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center relative overflow-hidden px-4 md:px-8"
         >
           <div className="absolute inset-0 opacity-10 pointer-events-none">
              <div className="w-full h-full bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -185,7 +185,7 @@ function App() {
                <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-gray-500 font-cartoon text-2xl md:text-4xl`} style={{animationDelay: '1.0s'}}>Sweating</span>
             </div>
 
-            <h2 className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-brand-orange font-cartoon text-5xl md:text-7xl font-bold uppercase tracking-widest`} style={{animationDelay: '2.5s'}}>
+            <h2 className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-brand-orange font-cartoon text-4xl sm:text-5xl md:text-7xl font-bold uppercase tracking-tight md:tracking-widest px-2`} style={{animationDelay: '2.5s'}}>
               Overwhelming Fear
             </h2>
 
