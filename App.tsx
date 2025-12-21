@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Heart, Sparkles, Wind, Zap, LayoutGrid, Lock, CircleAlert, Brain, ShieldCheck, Microscope } from 'lucide-react';
 import { Button } from './components/Button';
@@ -7,9 +8,11 @@ function App() {
   const [panicActivated, setPanicActivated] = useState(false);
   const [section1InView, setSection1InView] = useState(false);
   const [section2InView, setSection2InView] = useState(false);
+  const [showNavCta, setShowNavCta] = useState(false);
   const [localTime, setLocalTime] = useState('');
   const [localDate, setLocalDate] = useState('');
   
+  const heroRef = useRef<HTMLElement>(null);
   const section1Ref = useRef<HTMLElement>(null);
   const section2Ref = useRef<HTMLElement>(null);
 
@@ -26,12 +29,8 @@ function App() {
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
-      
-      // Format Time: 12:45
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
       setLocalTime(timeStr);
-      
-      // Format Date: Thursday, Oct 12
       const dateStr = now.toLocaleDateString('en-US', { 
         weekday: 'long', 
         month: 'short', 
@@ -41,12 +40,19 @@ function App() {
     };
 
     updateDateTime();
-    const interval = setInterval(updateDateTime, 60000); // Update every minute
-
+    const interval = setInterval(updateDateTime, 60000);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
+    // Observer for Hero to hide/show Nav Button
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        setShowNavCta(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
     // Observer for Symptoms Section (Trigger at 30%)
     const observer1 = new IntersectionObserver(
       ([entry]) => {
@@ -67,10 +73,12 @@ function App() {
       { threshold: 0.2 }
     );
 
+    if (heroRef.current) heroObserver.observe(heroRef.current);
     if (section1Ref.current) observer1.observe(section1Ref.current);
     if (section2Ref.current) observer2.observe(section2Ref.current);
 
     return () => {
+      heroObserver.disconnect();
       observer1.disconnect();
       observer2.disconnect();
     };
@@ -80,7 +88,7 @@ function App() {
     <div className="min-h-screen flex flex-col font-body text-brand-dark selection:bg-brand-orange selection:text-white">
       
       {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b-4 border-brand-dark/10">
+      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b-4 border-brand-dark/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
@@ -94,7 +102,9 @@ function App() {
               <a href="#panic-shield" className="font-bold hover:text-brand-orange transition-colors">Panic Shield</a>
               <a href="#science" className="font-bold hover:text-brand-orange transition-colors">The Science</a>
               <a href="#about" className="font-bold hover:text-brand-orange transition-colors">About</a>
-              <Button size="sm" onClick={() => scrollToSection('about')}>Get Early Access</Button>
+              <div className={`transition-all duration-300 transform ${showNavCta ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-[-10px] pointer-events-none'}`}>
+                <Button size="sm" onClick={() => scrollToSection('about')}>Get Early Access</Button>
+              </div>
             </div>
 
             <div className="md:hidden">
@@ -122,26 +132,26 @@ function App() {
         )}
       </nav>
 
-      {/* Hero Section - Height 95vh */}
+      {/* Hero Section */}
       <main className="flex-grow pt-20">
-        <section className="relative overflow-hidden bg-brand-yellow/30 pb-20 pt-12 lg:pt-24 min-h-[95vh] flex items-center">
+        <section ref={heroRef} className="relative overflow-hidden bg-brand-yellow/30 pb-20 pt-12 lg:pt-24 min-h-[95vh] flex items-center">
            <div className="absolute top-20 left-[-100px] w-64 h-64 bg-brand-green/20 rounded-full blur-3xl mix-blend-multiply animate-pulse"></div>
            <div className="absolute bottom-20 right-[-100px] w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl mix-blend-multiply animate-pulse" style={{animationDelay: '1s'}}></div>
            
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
              <div className="text-center max-w-4xl mx-auto">
                <h1 className="text-5xl md:text-7xl font-cartoon font-extrabold leading-tight mb-8 text-brand-dark">
-                 Panic & Anxiety Attack <span className="text-brand-green inline-block transform hover:scale-105 transition-transform cursor-pointer underline decoration-wavy decoration-4 underline-offset-4">Relieve</span> <br/> 
-                 When you need.
+                 <span className="text-brand-orange">Panic & Anxiety Attack Relieve</span> <br/> 
+                 <span className="text-3xl md:text-5xl text-brand-dark block mt-4">When you need it Most</span>
                </h1>
                
-               <p className="text-xl md:text-2xl text-gray-600 mb-6 leading-relaxed font-body max-w-2xl mx-auto">
+               <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed font-body max-w-2xl mx-auto">
                  From now on you will always be ready to handle any situation. Relieve Valley is your pocket companion for peace.
                </p>
 
                <div 
                  onClick={() => scrollToSection('science')}
-                 className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-brand-dark shadow-cartoon-hover mb-10 transform hover:-rotate-2 hover:scale-105 transition-all cursor-pointer group"
+                 className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-brand-dark shadow-cartoon-hover mb-12 transform hover:-rotate-2 hover:scale-105 transition-all cursor-pointer group"
                >
                   <Microscope className="text-brand-blue w-5 h-5 group-hover:scale-125 transition-transform" />
                   <span className="font-bold text-sm">Proven Techniques Used in Clinical Research</span>
@@ -315,7 +325,7 @@ function App() {
           </div>
         </section>
 
-        {/* REBUILT: Why the Valley? / The Science Section */}
+        {/* Science Section */}
         <section id="science" className="py-32 bg-white relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-brand-green/5 to-transparent"></div>
           
@@ -340,7 +350,7 @@ function App() {
                   icon: <Brain className="w-10 h-10 text-white" />
                 },
                 { 
-                  title: 'Nervous System Reset', 
+                  title: 'Grounding - 2nd Layer', 
                   desc: 'Guided resonance breathing patterns designed to stimulate the vagus nerve and activate your parasympathetic system.',
                   fact: 'Heart Rate Variability (HRV) biofeedback is clinically linked to stress resilience.',
                   color: 'bg-brand-blue',
