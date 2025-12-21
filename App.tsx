@@ -140,7 +140,7 @@ function App() {
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
              <div className="text-center max-w-4xl mx-auto">
                <h1 className="text-5xl md:text-7xl font-cartoon font-extrabold leading-tight mb-8 text-brand-dark">
-                 <span className="text-brand-orange">Panic & Anxiety Attack Relieve</span> <br/> 
+                 <span className="text-[rgb(81,167,188)]">Panic & Anxiety Attack Relieve</span> <br/> 
                  <span className="text-3xl md:text-5xl text-brand-dark block mt-4">When you need it Most</span>
                </h1>
                
