@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Heart, Sparkles, Wind, Zap, LayoutGrid, Lock, CircleAlert, Brain, ShieldCheck, Microscope } from 'lucide-react';
 import { Button } from './components/Button';
@@ -17,8 +16,12 @@ function App() {
   const section2Ref = useRef<HTMLElement>(null);
 
   const handlePanicClick = () => {
+    if (panicActivated) return;
     setPanicActivated(true);
-    setTimeout(() => setPanicActivated(false), 3000);
+    // Automatically revert after 3 seconds
+    setTimeout(() => {
+      setPanicActivated(false);
+    }, 3000);
   };
 
   const scrollToSection = (id: string) => {
@@ -242,10 +245,10 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               
-              <div className="order-2 md:order-1">
+              <div className="order-1">
                 <h2 className="text-4xl md:text-5xl font-cartoon font-bold text-brand-orange mb-6 leading-tight">
                   Emergency Button<br/>
-                  <span className="text-brand-dark underline decoration-wavy decoration-4 decoration-brand-orange underline-offset-8">Your backup</span>
+                  <span className="text-brand-dark">Your backup</span>
                 </h2>
                 <p className="text-xl text-gray-600 mb-8 leading-relaxed font-body">
                   Anxiety doesn't wait for the right moment, and neither should you. Our <strong>Alert Button</strong> is designed to be just one tap away, no matter where you are on your phone.
@@ -273,39 +276,56 @@ function App() {
                 </ul>
               </div>
 
-              <div className="order-1 md:order-2 flex justify-center perspective-1000">
-                 <div className="bg-brand-dark rounded-[3rem] p-3 mx-auto w-[320px] shadow-cartoon transform rotate-3 hover:rotate-0 transition-transform duration-500 origin-center">
-                    <div className="bg-white rounded-[2.5rem] overflow-hidden h-[600px] border-4 border-brand-dark relative bg-gradient-to-b from-blue-50 to-white flex flex-col">
-                        <div className="h-7 w-32 bg-brand-dark rounded-b-xl mx-auto absolute top-0 left-0 right-0 z-20"></div>
+              <div className="order-2 flex justify-center perspective-1000">
+                 <div className="bg-brand-dark rounded-[3.5rem] p-3 mx-auto w-[320px] shadow-cartoon transform rotate-3 hover:rotate-0 transition-transform duration-500 origin-center relative">
+                    <div className="bg-white rounded-[2.75rem] overflow-hidden h-[600px] border-4 border-brand-dark relative bg-gradient-to-b from-blue-50 to-white flex flex-col">
+                        
+                        {/* Dynamic Island Style Pill */}
+                        <div className="h-7 w-28 bg-brand-dark rounded-full mx-auto absolute top-3 left-0 right-0 z-40"></div>
+
+                        {/* Fullscreen calming state within device frame */}
+                        {panicActivated && (
+                          <div className="absolute inset-0 z-30 bg-brand-green flex flex-col items-center justify-center p-8 animate-in fade-in zoom-in duration-500 text-center">
+                             <Wind className="w-20 h-20 text-brand-dark mb-6 animate-pulse" />
+                             
+                             {/* Header Text */}
+                             <h4 className="font-cartoon font-bold text-2xl text-brand-dark mb-6 leading-tight">
+                               Let's calm you...
+                             </h4>
+                             
+                             {/* Skeleton lines representing descriptive text */}
+                             <div className="w-full space-y-3 max-w-[160px]">
+                                <div className="h-2.5 w-full bg-brand-dark/10 rounded-full mx-auto animate-pulse"></div>
+                                <div className="h-2.5 w-4/5 bg-brand-dark/10 rounded-full mx-auto animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                                <div className="h-2.5 w-5/6 bg-brand-dark/10 rounded-full mx-auto animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                             </div>
+
+                             {/* Placeholder for a visual button line */}
+                             <div className="mt-12 h-8 w-28 bg-brand-dark/10 rounded-full border-2 border-brand-dark/5 animate-pulse" style={{animationDelay: '0.6s'}}></div>
+                          </div>
+                        )}
 
                         <div className="flex-1 flex flex-col items-center pt-20 px-6">
                             <div className="text-6xl font-cartoon text-brand-dark/20 mb-2">{localTime}</div>
                             <div className="text-lg font-bold text-brand-dark/20 mb-12">{localDate}</div>
                             
                             <div className="relative w-full mb-8">
-                                <div className={`absolute inset-0 bg-red-400/20 rounded-full blur-md animate-glow-pulse ${panicActivated ? 'opacity-100' : 'opacity-40'}`}></div>
+                                <div className="absolute inset-0 bg-red-400/20 rounded-full blur-md animate-glow-pulse opacity-40"></div>
                                 
                                 <div 
                                     onClick={handlePanicClick}
-                                    className={`relative z-10 w-full rounded-full p-4 border-2 border-brand-dark shadow-cartoon-hover overflow-hidden group cursor-pointer transition-all duration-300 ${panicActivated ? 'bg-brand-green' : 'bg-white hover:bg-gray-50'}`}
+                                    className="relative z-10 w-full rounded-full p-4 border-2 border-brand-dark shadow-cartoon-hover overflow-hidden group cursor-pointer transition-all duration-300 bg-white hover:bg-gray-50"
                                 >
-                                    {panicActivated ? (
-                                        <div className="flex flex-col items-center justify-center py-2 animate-in fade-in zoom-in duration-300">
-                                            <Wind className="w-8 h-8 text-brand-dark mb-2 animate-pulse" />
-                                            <span className="font-cartoon font-bold text-lg text-brand-dark text-center">Let's calm you... 🍃</span>
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-brand-orange p-3 rounded-full border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform relative overflow-hidden">
+                                            <div className="absolute top-1 left-1/2 -translate-x-1/2 w-[70%] h-[30%] bg-white/30 rounded-full blur-[1px]"></div>
+                                            <CircleAlert size={24} />
                                         </div>
-                                    ) : (
-                                        <div className="flex items-center gap-4">
-                                            <div className="bg-brand-orange p-3 rounded-full border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform relative overflow-hidden">
-                                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-[70%] h-[30%] bg-white/30 rounded-full blur-[1px]"></div>
-                                                <CircleAlert size={24} />
-                                            </div>
-                                            <div className="flex-1 text-brand-dark">
-                                                <div className="font-cartoon font-bold text-lg">Panic Button</div>
-                                                <div className="text-xs text-gray-500 font-bold">Tap for immediate help</div>
-                                            </div>
+                                        <div className="flex-1 text-brand-dark">
+                                            <div className="font-cartoon font-bold text-lg">Panic Button</div>
+                                            <div className="text-xs text-gray-500 font-bold">Tap for immediate help</div>
                                         </div>
-                                    )}
+                                    </div>
                                 </div>
                             </div>
                             
