@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Heart, Sparkles, Wind, Zap, LayoutGrid, Lock, CircleAlert } from 'lucide-react';
 import { Button } from './components/Button';
-import { MascotShowcase } from './components/MascotShowcase';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,7 +67,6 @@ function App() {
 
             <div className="hidden md:flex items-center space-x-8">
               <a href="#panic-shield" className="font-bold hover:text-brand-orange transition-colors">Panic Shield</a>
-              <a href="#companion" className="font-bold hover:text-brand-orange transition-colors">Companion</a>
               <a href="#features" className="font-bold hover:text-brand-orange transition-colors">Features</a>
               <a href="#about" className="font-bold hover:text-brand-orange transition-colors">About</a>
               <Button size="sm" onClick={() => scrollToSection('about')}>Get Early Access</Button>
@@ -88,10 +86,9 @@ function App() {
         {isMenuOpen && (
           <div className="md:hidden bg-white border-t-2 border-gray-100 absolute w-full shadow-xl">
             <div className="px-4 pt-2 pb-6 space-y-2">
-              <a href="#panic-shield" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Panic Shield</a>
-              <a href="#companion" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Companion</a>
-              <a href="#features" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Features</a>
-              <a href="#about" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">About</a>
+              <a href="#panic-shield" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg" onClick={() => setIsMenuOpen(false)}>Panic Shield</a>
+              <a href="#features" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg" onClick={() => setIsMenuOpen(false)}>Features</a>
+              <a href="#about" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg" onClick={() => setIsMenuOpen(false)}>About</a>
               <div className="pt-2">
                 <Button className="w-full justify-center" onClick={() => { setIsMenuOpen(false); scrollToSection('about'); }}>Get Early Access</Button>
               </div>
@@ -299,11 +296,6 @@ function App() {
           </div>
         </section>
 
-        {/* Companion Section */}
-        <section id="companion" className="py-32 bg-brand-yellow/10">
-          <MascotShowcase />
-        </section>
-
         {/* Features Grid */}
         <section id="features" className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -316,19 +308,19 @@ function App() {
               {[
                 { 
                   title: 'Daily Quests', 
-                  desc: 'Complete small, mindful tasks to earn treats for your companion.',
+                  desc: 'Complete small, mindful tasks to earn badges and unlock peace.',
                   color: 'bg-brand-orange',
                   icon: '🎯'
                 },
                 { 
                   title: 'Mood Mirror', 
-                  desc: 'Your companion reflects your emotional state, helping you build awareness.',
+                  desc: 'Visual reflections of your emotional state to build self-awareness.',
                   color: 'bg-brand-blue',
                   icon: '🪞'
                 },
                 { 
                   title: 'Zen Garden', 
-                  desc: 'A safe space to meditate, breathe, and simply be with friends.',
+                  desc: 'A safe space to meditate, breathe, and simply be at ease.',
                   color: 'bg-brand-green',
                   icon: '🎋'
                 }
@@ -353,7 +345,7 @@ function App() {
                 <Sparkles className="w-16 h-16 text-brand-yellow mx-auto mb-8 animate-pulse" />
                 <h2 className="text-5xl md:text-6xl font-cartoon font-bold mb-10">Ready to start your journey?</h2>
                 <div className="bg-white/10 p-10 rounded-[50px] backdrop-blur-md max-w-2xl mx-auto border-2 border-white/20">
-                    <p className="text-2xl mb-8 font-body">Sign up for early access and get a legendary <span className="text-brand-yellow font-bold">Golden Retriever</span> starter pack.</p>
+                    <p className="text-2xl mb-8 font-body">Sign up for early access and get the <span className="text-brand-yellow font-bold">Zen Master</span> pack when we launch.</p>
                     <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
                         <input 
                             type="email" 
