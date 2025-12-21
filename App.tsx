@@ -100,8 +100,7 @@ function App() {
 
             <div className="hidden md:flex items-center space-x-8">
               <a href="#panic-shield" className="font-bold hover:text-brand-orange transition-colors">Panic Shield</a>
-              <a href="#science" className="font-bold hover:text-brand-orange transition-colors">The Science</a>
-              <a href="#about" className="font-bold hover:text-brand-orange transition-colors">About</a>
+              <a href="#science" className="font-bold hover:text-brand-orange transition-colors">Science</a>
               <div className={`transition-all duration-300 transform ${showNavCta ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-[-10px] pointer-events-none'}`}>
                 <Button size="sm" onClick={() => scrollToSection('about')}>Get Early Access</Button>
               </div>
@@ -350,7 +349,7 @@ function App() {
                   icon: <Brain className="w-10 h-10 text-white" />
                 },
                 { 
-                  title: 'Grounding - 2nd Layer', 
+                  title: 'Nervous System Reset', 
                   desc: 'Guided resonance breathing patterns designed to stimulate the vagus nerve and activate your parasympathetic system.',
                   fact: 'Heart Rate Variability (HRV) biofeedback is clinically linked to stress resilience.',
                   color: 'bg-brand-blue',
@@ -403,7 +402,7 @@ function App() {
                         <input 
                             type="email" 
                             placeholder="Enter your email" 
-                            className="flex-1 px-8 py-5 rounded-2xl text-brand-dark font-bold border-4 border-transparent focus:border-brand-yellow outline-none transition-colors"
+                            className="flex-1 px-8 py-5 rounded-2xl bg-white/5 text-white placeholder:text-gray-400 font-bold border-4 border-white/20 focus:border-brand-yellow outline-none transition-all"
                         />
                         <Button variant="primary" size="lg" className="w-full sm:w-auto px-10" onClick={() => scrollToSection('about')}>
                             Join Now
