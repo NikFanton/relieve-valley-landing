@@ -61,6 +61,11 @@
         50% { transform: scale(1.2); opacity: 0.5; }
       }
 
+      @keyframes pulse-ripple {
+        0% { transform: scale(0.9); opacity: 0.6; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+
       .animate-jitter {
         animation: jitter 0.3s infinite ease-in-out;
       }
@@ -72,6 +77,10 @@
 
       .animate-glow-pulse {
         animation: glow 3s infinite ease-in-out;
+      }
+
+      .animate-pulse-ripple {
+        animation: pulse-ripple 2s cubic-bezier(0, 0, 0.2, 1) infinite;
       }
 
       .reveal-on-scroll {

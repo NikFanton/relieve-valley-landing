@@ -6,7 +6,10 @@ import { MascotShowcase } from './components/MascotShowcase';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [panicActivated, setPanicActivated] = useState(false);
+  const [section1InView, setSection1InView] = useState(false);
   const [section2InView, setSection2InView] = useState(false);
+  
+  const section1Ref = useRef<HTMLElement>(null);
   const section2Ref = useRef<HTMLElement>(null);
 
   const handlePanicClick = () => {
@@ -20,7 +23,18 @@ function App() {
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    // Observer for Symptoms Section (Trigger at 30%)
+    const observer1 = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSection1InView(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    // Observer for Relief Button Section
+    const observer2 = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setSection2InView(true);
@@ -29,11 +43,13 @@ function App() {
       { threshold: 0.2 }
     );
 
-    if (section2Ref.current) {
-      observer.observe(section2Ref.current);
-    }
+    if (section1Ref.current) observer1.observe(section1Ref.current);
+    if (section2Ref.current) observer2.observe(section2Ref.current);
 
-    return () => observer.disconnect();
+    return () => {
+      observer1.disconnect();
+      observer2.disconnect();
+    };
   }, []);
 
   return (
@@ -55,7 +71,7 @@ function App() {
               <a href="#companion" className="font-bold hover:text-brand-orange transition-colors">Companion</a>
               <a href="#features" className="font-bold hover:text-brand-orange transition-colors">Features</a>
               <a href="#about" className="font-bold hover:text-brand-orange transition-colors">About</a>
-              <Button size="sm">Get Early Access</Button>
+              <Button size="sm" onClick={() => scrollToSection('about')}>Get Early Access</Button>
             </div>
 
             <div className="md:hidden">
@@ -77,65 +93,69 @@ function App() {
               <a href="#features" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">Features</a>
               <a href="#about" className="block px-3 py-4 text-lg font-bold hover:bg-yellow-50 rounded-lg">About</a>
               <div className="pt-2">
-                <Button className="w-full justify-center">Get Early Access</Button>
+                <Button className="w-full justify-center" onClick={() => { setIsMenuOpen(false); scrollToSection('about'); }}>Get Early Access</Button>
               </div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Height 95vh */}
       <main className="flex-grow pt-20">
-        <section className="relative overflow-hidden bg-brand-yellow/30 pb-20 pt-12 lg:pt-24 min-h-[80vh] flex items-center">
+        <section className="relative overflow-hidden bg-brand-yellow/30 pb-20 pt-12 lg:pt-24 min-h-[95vh] flex items-center">
            <div className="absolute top-20 left-[-100px] w-64 h-64 bg-brand-green/20 rounded-full blur-3xl mix-blend-multiply animate-pulse"></div>
            <div className="absolute bottom-20 right-[-100px] w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl mix-blend-multiply animate-pulse" style={{animationDelay: '1s'}}></div>
            
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-             <div className="text-center max-w-3xl mx-auto">
+             <div className="text-center max-w-4xl mx-auto">
                <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-brand-dark shadow-cartoon-hover mb-6 transform hover:-rotate-2 transition-transform cursor-default">
                   <Heart className="text-brand-orange w-5 h-5 fill-current" />
-                  <span className="font-bold text-sm">Reviewing stress since 2024</span>
+                  <span className="font-bold text-sm">Your safe valley is here</span>
                </div>
                
                <h1 className="text-5xl md:text-7xl font-cartoon font-extrabold leading-tight mb-8 text-brand-dark">
-                 Find your <span className="text-brand-green inline-block transform hover:scale-105 transition-transform cursor-pointer underline decoration-wavy decoration-4 underline-offset-4">Inner Peace</span> <br/> 
-                 in the Valley.
+                 Panic & Anxiety Attack <span className="text-brand-green inline-block transform hover:scale-105 transition-transform cursor-pointer underline decoration-wavy decoration-4 underline-offset-4">Relieve</span> <br/> 
+                 When you need.
                </h1>
                
-               <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed font-body">
-                 Join a community of mindful critters. Relieve Valley is the gamified mental health app that makes self-care feel like play.
+               <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed font-body max-w-2xl mx-auto">
+                 From now on you will always be ready to handle any situation. Relieve Valley is your pocket companion for peace.
                </p>
                
                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                 <Button size="lg" className="w-full sm:w-auto px-12 group" onClick={() => scrollToSection('overwhelming-fear')}>
-                   Start the Experience <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                 <Button size="lg" className="w-full sm:w-auto px-12 group" onClick={() => scrollToSection('about')}>
+                   Get Early Access <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                  </Button>
                </div>
              </div>
            </div>
         </section>
 
-        {/* SECTION 1: Symptoms Visualization */}
-        <section id="overwhelming-fear" className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center relative overflow-hidden px-4">
+        {/* SECTION 1: Symptoms Visualization - Triggers at 30% visibility */}
+        <section 
+          id="overwhelming-fear" 
+          ref={section1Ref}
+          className="min-h-screen bg-neutral-900 flex flex-col items-center justify-center relative overflow-hidden px-4"
+        >
           <div className="absolute inset-0 opacity-10 pointer-events-none">
              <div className="w-full h-full bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:40px_40px]"></div>
           </div>
 
-          <div className="relative z-10 text-center space-y-8 max-w-4xl mx-auto">
+          <div className={`relative z-10 text-center space-y-8 max-w-4xl mx-auto transition-opacity duration-500 ${section1InView ? 'opacity-100' : 'opacity-0'}`}>
             <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-12">
-               <span className="animate-pop-in animate-jitter text-gray-400 font-cartoon text-2xl md:text-4xl" style={{animationDelay: '0.2s'}}>Shaking</span>
-               <span className="animate-pop-in animate-jitter text-red-400/80 font-cartoon text-3xl md:text-5xl" style={{animationDelay: '0.6s'}}>Fast Heartbeat</span>
-               <span className="animate-pop-in animate-jitter text-gray-500 font-cartoon text-2xl md:text-4xl" style={{animationDelay: '1.0s'}}>Sweating</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-gray-400 font-cartoon text-2xl md:text-4xl`} style={{animationDelay: '0.2s'}}>Shaking</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-red-400/80 font-cartoon text-3xl md:text-5xl`} style={{animationDelay: '0.6s'}}>Fast Heartbeat</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-gray-500 font-cartoon text-2xl md:text-4xl`} style={{animationDelay: '1.0s'}}>Sweating</span>
             </div>
 
-            <h2 className="animate-pop-in animate-jitter text-brand-orange font-cartoon text-6xl md:text-9xl font-bold uppercase tracking-tighter" style={{animationDelay: '2.5s'}}>
+            <h2 className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-brand-orange font-cartoon text-5xl md:text-7xl font-bold uppercase tracking-widest`} style={{animationDelay: '2.5s'}}>
               Overwhelming Fear
             </h2>
 
             <div className="flex flex-wrap justify-center gap-6 md:gap-12 mt-12">
-               <span className="animate-pop-in animate-jitter text-gray-500 font-cartoon text-3xl md:text-5xl" style={{animationDelay: '1.4s'}}>Dizziness</span>
-               <span className="animate-pop-in animate-jitter text-gray-400 font-cartoon text-2xl md:text-4xl" style={{animationDelay: '1.8s'}}>Discomfort</span>
-               <span className="animate-pop-in animate-jitter text-orange-400/80 font-cartoon text-3xl md:text-5xl" style={{animationDelay: '2.1s'}}>Shortness of breath</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-gray-500 font-cartoon text-3xl md:text-5xl`} style={{animationDelay: '1.4s'}}>Dizziness</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-gray-400 font-cartoon text-2xl md:text-4xl`} style={{animationDelay: '1.8s'}}>Discomfort</span>
+               <span className={`${section1InView ? 'animate-pop-in animate-jitter' : 'opacity-0'} text-orange-400/80 font-cartoon text-3xl md:text-5xl`} style={{animationDelay: '2.1s'}}>Shortness of breath</span>
             </div>
           </div>
           
@@ -157,18 +177,25 @@ function App() {
               </h3>
               
               <div className="flex justify-center items-center relative">
-                {/* Pulse Glow Layer */}
-                <div className={`absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] bg-red-400/30 rounded-full blur-[30px] md:blur-[40px] animate-glow-pulse transition-opacity duration-1000 ${section2InView ? 'opacity-100' : 'opacity-0'}`}></div>
+                {/* Implemented Triple Pulse Ripple Animation under Relief Button */}
+                {section2InView && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] bg-red-400/30 rounded-full blur-[30px] animate-glow-pulse"></div>
+                    <div className="absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] border-4 border-red-400/50 rounded-full animate-pulse-ripple"></div>
+                    <div className="absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] border-4 border-red-400/30 rounded-full animate-pulse-ripple" style={{animationDelay: '0.7s'}}></div>
+                    <div className="absolute w-[160px] h-[100px] md:w-[240px] md:h-[140px] border-4 border-red-400/20 rounded-full animate-pulse-ripple" style={{animationDelay: '1.4s'}}></div>
+                  </div>
+                )}
 
                 {/* Visual Button - Using rounded-full for perfect oval shape */}
                 <button 
                   onClick={() => scrollToSection('panic-shield')}
                   className="relative z-10 w-36 h-20 md:w-52 md:h-28 bg-[#ff7b7b] rounded-full border-[3px] md:border-[4px] border-black shadow-[6px_8px_0_0_#000] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] hover:scale-105 transition-all flex flex-col items-center justify-center group overflow-hidden"
                 >
-                   {/* Reflection Highlight - Matches the user reference implementation */}
+                   {/* Reflection Highlight */}
                    <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-[65%] h-[25%] bg-white/20 rounded-full blur-[2px] pointer-events-none z-10"></div>
                    
-                   {/* Relief Button Text - Bigger and semi-bold, minimal padding */}
+                   {/* Relief Button Text */}
                    <span className="text-white font-cartoon font-semibold text-2xl md:text-3xl text-center leading-[0.9] z-20 select-none drop-shadow-md px-1">
                       Relief<br/>Button
                    </span>
@@ -230,26 +257,31 @@ function App() {
                             <div className="text-6xl font-cartoon text-brand-dark/20 mb-2">12:45</div>
                             <div className="text-lg font-bold text-brand-dark/20 mb-12">Thursday, Oct 12</div>
                             
-                            <div 
-                                onClick={handlePanicClick}
-                                className={`w-full rounded-full p-4 border-2 border-brand-dark shadow-cartoon-hover mb-8 relative overflow-hidden group cursor-pointer transition-all duration-300 ${panicActivated ? 'bg-brand-green' : 'bg-white hover:bg-gray-50'}`}
-                            >
-                                {panicActivated ? (
-                                    <div className="flex flex-col items-center justify-center py-2 animate-in fade-in zoom-in duration-300">
-                                        <Wind className="w-8 h-8 text-brand-dark mb-2 animate-pulse" />
-                                        <span className="font-cartoon font-bold text-lg text-brand-dark text-center">Let's calm you... 🍃</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-4">
-                                        <div className="bg-brand-orange p-3 rounded-full border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform">
-                                            <CircleAlert size={24} />
+                            <div className="relative w-full mb-8">
+                                <div className={`absolute inset-0 bg-red-400/20 rounded-full blur-md animate-glow-pulse ${panicActivated ? 'opacity-100' : 'opacity-40'}`}></div>
+                                
+                                <div 
+                                    onClick={handlePanicClick}
+                                    className={`relative z-10 w-full rounded-full p-4 border-2 border-brand-dark shadow-cartoon-hover overflow-hidden group cursor-pointer transition-all duration-300 ${panicActivated ? 'bg-brand-green' : 'bg-white hover:bg-gray-50'}`}
+                                >
+                                    {panicActivated ? (
+                                        <div className="flex flex-col items-center justify-center py-2 animate-in fade-in zoom-in duration-300">
+                                            <Wind className="w-8 h-8 text-brand-dark mb-2 animate-pulse" />
+                                            <span className="font-cartoon font-bold text-lg text-brand-dark text-center">Let's calm you... 🍃</span>
                                         </div>
-                                        <div className="flex-1 text-brand-dark">
-                                            <div className="font-cartoon font-bold text-lg">Panic Button</div>
-                                            <div className="text-xs text-gray-500 font-bold">Tap for immediate help</div>
+                                    ) : (
+                                        <div className="flex items-center gap-4">
+                                            <div className="bg-brand-orange p-3 rounded-full border-2 border-brand-dark text-white shadow-sm group-active:scale-95 transition-transform relative overflow-hidden">
+                                                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-[70%] h-[30%] bg-white/30 rounded-full blur-[1px]"></div>
+                                                <CircleAlert size={24} />
+                                            </div>
+                                            <div className="flex-1 text-brand-dark">
+                                                <div className="font-cartoon font-bold text-lg">Panic Button</div>
+                                                <div className="text-xs text-gray-500 font-bold">Tap for immediate help</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                             
                             <div className="w-full space-y-3 opacity-50">
@@ -328,7 +360,7 @@ function App() {
                             placeholder="Enter your email" 
                             className="flex-1 px-8 py-5 rounded-2xl text-brand-dark font-bold border-4 border-transparent focus:border-brand-yellow outline-none transition-colors"
                         />
-                        <Button variant="primary" size="lg" className="w-full sm:w-auto px-10">
+                        <Button variant="primary" size="lg" className="w-full sm:w-auto px-10" onClick={() => scrollToSection('about')}>
                             Join Now
                         </Button>
                     </form>
